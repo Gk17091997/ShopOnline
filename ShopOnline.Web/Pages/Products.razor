@@ -1,0 +1,24 @@
+﻿@page "/"
+@inherits ProductsBase
+
+@if (products == null)
+{
+   <DisplaySpinner></DisplaySpinner>
+}
+else
+{
+    <h3 class="mb-5">Products</h3>
+    var productCout = products.Count();
+    @if (productCout > 0)
+    {
+       @foreach (var grpProd in GetGroupedProductByCategory())
+        {
+            <h3>@GetCategoryName(grpProd)</h3>
+            <div class="row mt-3">
+                <DisplayProduct products="@grpProd"></DisplayProduct>
+            </div>
+            <hr class="mb-3"/>
+        }
+    }
+}
+
