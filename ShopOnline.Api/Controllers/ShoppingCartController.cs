@@ -58,7 +58,7 @@ namespace ShopOnline.Api.Controllers
             catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Error Retriveng data from database");
-            }
+            } 
         }
         [HttpPost]
         public async Task<ActionResult<CartItemDto>> PostItem([FromBody] CartItemToAddDto cartItemToAdd)
@@ -66,7 +66,15 @@ namespace ShopOnline.Api.Controllers
             try
             {
                 var newCartItem = await shoppingCartRepository.AddItem(cartItemToAdd);
+                if(newCartItem == null)
+                {
+                    return NoContent();
+                }
                 var product = await productRepository.GetItem(newCartItem.ProductId);
+                if(product == null)
+                {
+                    throw new Exception("something went worng while retriving data");
+                }
                 var newCartItemDto = newCartItem.ConvertDto(product);
                 return CreatedAtAction(nameof(Getitem), new {id = newCartItemDto.Id},newCartItemDto);
             }
@@ -78,3 +86,4 @@ namespace ShopOnline.Api.Controllers
         }
     }
 }
+  

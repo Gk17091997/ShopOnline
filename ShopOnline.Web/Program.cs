@@ -10,5 +10,6 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri("https://localhost:7200/") });
 builder.Services.AddScoped<IProductServices, ProductServices>();
+builder.Services.AddScoped<IShoppingCartService,ShoppingCartService>();
 
 await builder.Build().RunAsync();
